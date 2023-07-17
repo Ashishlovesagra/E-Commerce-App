@@ -20,18 +20,21 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
+// static
+app.use(express.static("dist"));
+
 //routes
 app.use('/api/v1/auth',authRoute);
 app.use('/api/v1/category',categoryRoute);
 app.use('/api/v1/products',productRoute);
 
 //Rest API
-app.get('/',(req,res)=>{
-    res.send("<h1>Welcome To E-commerce App </h1>");
-});
+app.use("/*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "dist", "index.html"));
+  });
 
 //PORT
-const Port = process.env.Port || 1009;
+const Port = process.env.PORT || 1009;
 
 //run listen
 app.listen(Port,()=>{
